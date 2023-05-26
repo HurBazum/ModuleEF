@@ -23,7 +23,7 @@ namespace ModuleEF
             delegatedMethod = LookForUserById;
         }
 
-        private void AddUsers(params User[] users)
+        public void AddUser(params User[] users)
         {
             using(db = new())
             {
@@ -39,19 +39,22 @@ namespace ModuleEF
             };
         }
 
-        public void CreateUser()
+        private User CreateUser()
         {
             User user = new();
+
             try
             {
                 CreateUserNameMethod(user);
                 CreateUserRoleMethod(user);
-                AddUsers(user);
             }
             catch (Exception ex)
             {
+                user = null;
                 Console.WriteLine(ex.Message);
             }
+
+            return user!;
         }
 
         public void ShowContent()

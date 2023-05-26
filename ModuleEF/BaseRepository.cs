@@ -1,16 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 namespace ModuleEF
 {
-    public delegate T Del<T>(bool result) where T : DB_Entity;
+    public delegate T LookingDelegate<T>(bool result) where T : DB_Entity;
+    public delegate T CreationDelegate<T>() where T : DB_Entity;
     public class BaseRepository
     {
-        protected AppContext db;
+        protected AppContext? db;
 
-        protected Del<DB_Entity> del;
+        protected LookingDelegate<DB_Entity> lookingDelegate;
+        public CreationDelegate<DB_Entity> creationDelegate;
 
         public BaseRepository()
         {
-            del = LookForElementById<DB_Entity>;
+            lookingDelegate = LookForElementById<DB_Entity>;
+            creationDelegate = CreateItem<DB_Entity>;
         }
         public void ShowContent<T>() where T : DB_Entity
         {
@@ -67,7 +70,7 @@ namespace ModuleEF
 
         public void RemoveItemById<T>() where T : DB_Entity
         {
-            T item = (T)del.Invoke(true);
+            T item = (T)lookingDelegate.Invoke(true);
             string itemName = (item is User) ? "user" : "book";
             Console.WriteLine($"\t\tУдаление {itemName} по Id!");
 
@@ -85,7 +88,42 @@ namespace ModuleEF
 
         public void AddItemToDB<T>() where T : DB_Entity
         {
+            T[] values = new T[0];
+            string itemName = (values is User[]) ? "user" : "book";
+            Console.WriteLine($"Сколько {itemName}" + "s хотите добавить?");
+            if (int.TryParse(Console.ReadLine(), out int count) && count > 0)
+            {
+                values = new T[count];
+                using (db = new())
+                {
+                    try
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            values[i] = (T)creationDelegate.Invoke();
+                        }
 
+                        if (count == 1)
+                        {
+                            db.Set<T>().Add(values[0]);
+                        }
+                        else
+                        {
+                            db.Set<T>().AddRange(values);
+                        }
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                };
+            }
+        }
+
+        protected virtual T CreateItem<T>() where T : DB_Entity, new()
+        {
+            return new T();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Security.Principal;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 class Program
 {
@@ -20,10 +21,12 @@ class Program
 
         //bookRepository.AddBook();
         //bookRepository.ShowContent();
-        bookRepository.ShowContent<Book>();
+        //bookRepository.ShowContent<Book>();
         //bookRepository.LookForElementById<Book>();
-        bookRepository.RemoveItemById<Book>();
-        bookRepository.ShowContent<Book>();
+        //bookRepository.RemoveItemById<Book>();
+        //bookRepository.AddItemToDB<Book>();
+        //bookRepository.ShowContent<Book>();
+        Console.WriteLine(bookRepository.creationDelegate.GetMethodInfo());
         Console.ReadLine();
     }
 

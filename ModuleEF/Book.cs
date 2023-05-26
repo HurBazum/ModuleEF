@@ -2,7 +2,6 @@
 {
     public class Book : DB_Entity
     {
-        public string Name { get; set; }
         public ushort PrintYear { get; set; }
 
         public override string ToString()

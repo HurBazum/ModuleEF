@@ -1,26 +1,17 @@
 ﻿namespace ModuleEF
 {
-    public class BookRepository : BaseRepository
+    public sealed class BookRepository : BaseRepository
     {
-        // private AppContext? db;
-        public BookRepository()
+        public BookRepository() : base()
         {
-            del = LookForElementById<Book>;
-        }
-        public void AddBook()
-        {
-            var boook = CreateBook();
-            using(db = new())
-            {
-                db.Books.Add(boook);
-                db.SaveChanges();
-            };
+            lookingDelegate = LookForElementById<Book>;
+            creationDelegate = CreateItem<Book>;
         }
 
-        private Book CreateBook()
+        protected override Book CreateItem<Book>()
         {
             Console.WriteLine("Добавление книги:");
-            Book book = new();
+            var book = new Book();
             Console.Write("Введите название книги: ");
             string bookName = Console.ReadLine()!;
             book.Name = bookName;
@@ -31,17 +22,6 @@
             }
 
             return book;
-        }
-
-        public void ShowContent()
-        {
-            using (db = new())
-            {
-                foreach (var book in db.Books)
-                {
-                    Console.WriteLine(book.ToString());
-                }
-            };
         }
     }
 }
