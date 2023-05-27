@@ -13,7 +13,7 @@ namespace ModuleEF
         public BaseRepository()
         {
             lookingDelegate = LookForElementById<DB_Entity>;
-            creationDelegate = CreateItem<DB_Entity>;
+            creationDelegate = CreateItem;
         }
         public void ShowContent<T>() where T : DB_Entity
         {
@@ -121,9 +121,9 @@ namespace ModuleEF
             }
         }
 
-        protected virtual T CreateItem<T>() where T : DB_Entity, new()
+        protected virtual DB_Entity CreateItem()
         {
-            return new T();
+            return new DB_Entity();
         }
     }
 }
