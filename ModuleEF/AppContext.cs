@@ -11,7 +11,6 @@ namespace ModuleEF
 
         public AppContext()
         {
-            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

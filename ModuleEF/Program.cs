@@ -1,4 +1,5 @@
-﻿using ModuleEF;
+﻿using Microsoft.EntityFrameworkCore;
+using ModuleEF;
 class Program
 {
     static ModuleEF.AppContext app;
@@ -6,18 +7,24 @@ class Program
     static BookRepository bookRepository = new();
     static void Main(string[] strings)
     {
-        userRepository.ShowContent<User>();
-        userRepository.AddItemToDB<User>();
-        userRepository.ShowContent<User>();
-        bookRepository.AddItemToDB<Book>();
-        userRepository.ShowContent<Book>();
-        using (app = new())
+        /*bookRepository.ShowContent<Book>();
+        var user = userRepository.LookForElementById<User>(true);
+        userRepository.AddBookToBooks(user);
+        */using(app = new())
         {
-            var user = userRepository.LookForElementById<User>();
-            bookRepository.ShowContent<Book>();
-            var book = bookRepository.LookForElementById<Book>();
-            user.Books.Add(book);
-            app.SaveChanges();
+            var users = app.Users.Include(u => u.Books).ToList();
+
+            foreach(var user in users)
+            {
+                if (user.Books.Any())
+                {
+                    Console.WriteLine($"Книги {user.Name}:");
+                    foreach (var book in user.Books)
+                    {
+                        Console.WriteLine("\t\t" + book.Name);
+                    }
+                }
+            }
         }
         Console.ReadLine();
     }

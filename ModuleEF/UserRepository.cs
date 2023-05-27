@@ -75,6 +75,32 @@
             }
         }
 
+        public void AddBookToBooks(User user)
+        {
+            var book = LookForElementById<Book>(true);
+
+            if (user.Books.Find(x => x.Id == book.Id) is null)
+            {
+                using (db = new())
+                {
+                    try
+                    {
+                        user.Books.Add(book);
+                        db.Users.Update(user);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex) 
+                    { 
+                        Console.WriteLine(ex.InnerException); 
+                    }
+                };
+            }
+            else
+            {
+                Console.WriteLine($"Пользователь {user.Name} уже взял книгу {book?.Name}!");
+            }
+        }
+
         /// <summary>
         /// Методы для проверки ввода текстовых значений для св-в класса User
         /// </summary>
