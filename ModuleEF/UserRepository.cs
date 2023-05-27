@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Drawing;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.CompilerServices;
-
-namespace ModuleEF
+﻿namespace ModuleEF
 {
     enum RoleEnum
     {
@@ -11,41 +6,20 @@ namespace ModuleEF
         User
     }
 
-    public delegate User Del(bool result);
-    public class UserRepository
+    public class UserRepository : BaseRepository
     {
-        private AppContext db;
-
-        public Del delegatedMethod;
-
-        public UserRepository()
+        public UserRepository() : base()
         {
-            delegatedMethod = LookForUserById;
+            lookingDelegate = LookForElementById<User>;
+            creationDelegate = CreateItem;
         }
-
-        public void AddUser(params User[] users)
-        {
-            using(db = new())
-            {
-                if (users.Length == 1)
-                {
-                    db.Users.Add(users[0]);
-                }
-                if(users.Length > 1) 
-                {
-                    db.AddRange(users);
-                }
-                db.SaveChanges();
-            };
-        }
-
-        private User CreateUser()
+        protected override User CreateItem()
         {
             User user = new();
 
             try
             {
-                CreateUserNameMethod(user);
+                CreateItemNameMethod(user);
                 CreateUserRoleMethod(user);
             }
             catch (Exception ex)
@@ -57,85 +31,10 @@ namespace ModuleEF
             return user!;
         }
 
-        public void ShowContent()
-        {
-            using(db = new())
-            {
-                foreach(var user in db.Users)
-                {
-                    Console.WriteLine(user.ToString());
-                }
-
-                db.SaveChanges();
-            };
-        }
-
-        public void RemoveUserById()
-        {
-            Console.WriteLine("\t\tУдаление юзера по Id!");
-            var user = delegatedMethod.Invoke(true);
-
-            if (user != null)
-            {
-                using (db = new())
-                {
-                    var deletedUser = user;
-                    db.Users.Remove(user);
-                    db.SaveChanges();
-                    Console.WriteLine($"user {deletedUser} был удалён!");
-                };
-            }
-        }
-        /// <summary>
-        /// Метод поиска юзера по Id, используется в методах RemoveUserById и UpdateUserById
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="FormatException"></exception>
-        public User LookForUserById(bool show = false)
-        {
-            if(!show)
-            {
-                Console.WriteLine("Поиск пользователя по Id!");
-            }
-
-            User user = null;
-
-            using (db = new())
-            {
-                try
-                {
-                    Console.WriteLine("Введите ID:");
-                    bool result = int.TryParse(Console.ReadLine(), out int id);
-                    if(!result)
-                    {
-                        throw new FormatException();
-                    }
-                    if (result == true && (id > db.Users.OrderBy(x => x.Id).Last().Id || id < db.Users.First().Id))
-                    {
-                        throw new Exception("Элемента с таким Id  не существует в базе!");
-                    }
-
-                    user = db.Users.AsNoTracking().FirstOrDefault(x => x.Id == id)!;
-                } 
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            };
-
-            if (user != null && !show)
-            {
-                Console.WriteLine("Найден пользователь:");
-                Console.WriteLine(user.ToString());
-            }
-
-            return user!;
-        }
-
         public void UpdateUsersById()
         {
             Console.WriteLine("\t\tИзненеие юзера по Id!");
-            var user = delegatedMethod.Invoke(true);
+            var user = (User)lookingDelegate.Invoke(true);
 
             if (user != null)
             {
@@ -150,7 +49,7 @@ namespace ModuleEF
                             switch (choice)
                             {
                                 case 1:
-                                    CreateUserNameMethod(user);
+                                    CreateItemNameMethod(user);
                                     break;
                                 case 2:
                                     CreateUserEmailMethod(user);
@@ -165,7 +64,7 @@ namespace ModuleEF
                         }
                         else
                         {
-
+                            throw new Exception("Операция под таким номером недоступна!");
                         }
                     }
                     catch (Exception ex)
@@ -181,7 +80,8 @@ namespace ModuleEF
         /// </summary>
         private void CreateUserEmailMethod(User user) 
         {
-            Console.Write("Введите новый e-mail: ");
+            string hasEmail = (!string.IsNullOrEmpty(user.Email)) ? " новый ": " ";
+            Console.Write($"Введите{hasEmail}e-mail: ");
             string newEmail = Console.ReadLine();
             if (string.IsNullOrEmpty(newEmail))
             {
@@ -190,20 +90,6 @@ namespace ModuleEF
             else
             {
                 user.Email = newEmail;
-            }
-        }
-
-        private void CreateUserNameMethod(User user)
-        {
-            Console.Write("Введите новое имя: ");
-            string newName = Console.ReadLine();
-            if (string.IsNullOrEmpty(newName))
-            {
-                throw new ArgumentNullException($"Введена пустая строка!");
-            }
-            else
-            {
-                user.Name = newName;
             }
         }
 

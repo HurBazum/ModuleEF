@@ -15,6 +15,8 @@ namespace ModuleEF
             lookingDelegate = LookForElementById<DB_Entity>;
             creationDelegate = CreateItem;
         }
+
+        // Общие методы для потомков
         public void ShowContent<T>() where T : DB_Entity
         {
             using(db = new())
@@ -121,9 +123,30 @@ namespace ModuleEF
             }
         }
 
+        protected void CreateItemNameMethod<T>(T entity) where T : DB_Entity
+        {
+            var itemName = typeof(T).Name;
+            string noName = (!string.IsNullOrEmpty(entity.Name)) ? " новое " : " ";
+            Console.Write($"Введите{noName}имя {itemName}: ");
+            string newName = Console.ReadLine();
+            if (string.IsNullOrEmpty(newName))
+            {
+                throw new ArgumentNullException($"Введена пустая строка!");
+            }
+            else
+            {
+                entity.Name = newName;
+            }
+        }
+
+        // Виртуальные
         protected virtual DB_Entity CreateItem()
         {
             return new DB_Entity();
+        }
+        public virtual void UpdateItemById()
+        {
+
         }
     }
 }
