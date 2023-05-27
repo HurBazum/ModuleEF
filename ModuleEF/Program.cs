@@ -7,10 +7,7 @@ class Program
     static BookRepository bookRepository = new();
     static void Main(string[] strings)
     {
-        /*bookRepository.ShowContent<Book>();
-        var user = userRepository.LookForElementById<User>(true);
-        userRepository.AddBookToBooks(user);
-        */using(app = new())
+        using(app = new())
         {
             var users = app.Users.Include(u => u.Books).ToList();
 
@@ -26,6 +23,12 @@ class Program
                 }
             }
         }
+        Console.WriteLine();
+        userRepository.ShowContent<User>();
+        bookRepository.ShowContent<Book>();
+        var u = userRepository.LookForElementById<User>(true);
+        userRepository.AddBookToUserBooks(u);
+
         Console.ReadLine();
     }
 }

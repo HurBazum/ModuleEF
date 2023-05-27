@@ -75,11 +75,11 @@
             }
         }
 
-        public void AddBookToBooks(User user)
+        public void AddBookToUserBooks(User user)
         {
             var book = LookForElementById<Book>(true);
 
-            if (user.Books.Find(x => x.Id == book.Id) is null)
+            if (!user.Books.Contains(book))
             {
                 using (db = new())
                 {

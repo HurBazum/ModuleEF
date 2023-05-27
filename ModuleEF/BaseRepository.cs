@@ -139,6 +139,26 @@ namespace ModuleEF
             }
         }
 
+        /*public void ShowItemsOfItemList<T, U>() where T : DB_Entity where U : DB_Entity
+        {
+            using (db = new())
+            {
+                List<T> items = db.Set<T>().Include(u => u.values).ToList();
+
+                foreach (var item in items)
+                {
+                    if (item.values.Any())
+                    {
+                        Console.WriteLine($"Книги {item.Name}:");
+                        foreach (var value in item.values)
+                        {
+                            Console.WriteLine("\t\t" + value.Name);
+                        }
+                    }
+                }
+            }
+        }*/
+
         // Виртуальные
         protected virtual DB_Entity CreateItem()
         {
