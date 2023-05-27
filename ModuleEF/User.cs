@@ -4,6 +4,7 @@
     {
         public string Email { get; set; } = string.Empty;
         public string Role { get; set; }
+        public List<Book> Books { get; set; } = new();
 
         public override string ToString()
         {
