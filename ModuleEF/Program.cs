@@ -7,7 +7,7 @@ class Program
     static BookRepository bookRepository = new();
     static void Main(string[] strings)
     {
-        using(app = new())
+        /*using(app = new())
         {
             var users = app.Users.Include(u => u.Books).ToList();
 
@@ -22,7 +22,8 @@ class Program
                     }
                 }
             }
-        }
+        }*/
+
         Console.WriteLine();
         userRepository.ShowContent<User>();
         bookRepository.ShowContent<Book>();

@@ -79,26 +79,28 @@
         {
             var book = LookForElementById<Book>(true);
 
-            if (!user.Books.Contains(book))
+            var hasBook = user.Books.Contains(book);
+            using (db = new())
             {
-                using (db = new())
+                try
                 {
-                    try
+                    if (hasBook == true)
                     {
                         user.Books.Add(book);
                         db.Users.Update(user);
                         db.SaveChanges();
                     }
-                    catch (Exception ex) 
-                    { 
-                        Console.WriteLine(ex.InnerException); 
+                    else
+                    {
+                        Console.WriteLine($"Пользователь {user.Name} уже взял книгу {book?.Name}!");
+                        db.Dispose();
                     }
-                };
-            }
-            else
-            {
-                Console.WriteLine($"Пользователь {user.Name} уже взял книгу {book?.Name}!");
-            }
+                }
+                catch (Exception ex) 
+                { 
+                    Console.WriteLine(ex.InnerException); 
+                }
+            };
         }
 
         /// <summary>
