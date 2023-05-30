@@ -10,9 +10,9 @@ using ModuleEF.DAL.DB;
 
 namespace ModuleEF.Migrations
 {
-    [DbContext(typeof(AppContext))]
-    [Migration("20230527154034_MnogieKoMnogim")]
-    partial class MnogieKoMnogim
+    [DbContext(typeof(ModuleEF.DAL.DB.AppContext))]
+    [Migration("20230530171427_StockMigratin")]
+    partial class StockMigratin
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace ModuleEF.Migrations
                     b.ToTable("BookUser");
                 });
 
-            modelBuilder.Entity("ModuleEF.Book", b =>
+            modelBuilder.Entity("ModuleEF.BLL.Models.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,15 +51,62 @@ namespace ModuleEF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.HasKey("Id");
+
+                    b.ToTable("Authors");
+                });
+
+            modelBuilder.Entity("ModuleEF.BLL.Models.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PrintYear")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("GenreId");
+
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("ModuleEF.User", b =>
+            modelBuilder.Entity("ModuleEF.BLL.Models.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("ModuleEF.BLL.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,17 +133,36 @@ namespace ModuleEF.Migrations
 
             modelBuilder.Entity("BookUser", b =>
                 {
-                    b.HasOne("ModuleEF.Book", null)
+                    b.HasOne("ModuleEF.BLL.Models.Book", null)
                         .WithMany()
                         .HasForeignKey("BooksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ModuleEF.User", null)
+                    b.HasOne("ModuleEF.BLL.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ModuleEF.BLL.Models.Book", b =>
+                {
+                    b.HasOne("ModuleEF.BLL.Models.Author", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ModuleEF.BLL.Models.Genre", "Genre")
+                        .WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Genre");
                 });
 #pragma warning restore 612, 618
         }

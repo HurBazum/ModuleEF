@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ModuleEF.DAL.DB;
 
@@ -10,9 +11,11 @@ using ModuleEF.DAL.DB;
 namespace ModuleEF.Migrations
 {
     [DbContext(typeof(ModuleEF.DAL.DB.AppContext))]
-    partial class AppContextModelSnapshot : ModelSnapshot
+    [Migration("20230530174658_StokNOTNULL")]
+    partial class StokNOTNULL
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -4,6 +4,8 @@ namespace ModuleEF.DAL.Repositories
 {
     public sealed class BookRepository : BaseRepository
     {
+        private AuthorRepository author = new();
+        private GenreRepository genre = new();
         public BookRepository() : base()
         {
             lookingDelegate = LookForElementById<Book>;
@@ -18,6 +20,9 @@ namespace ModuleEF.DAL.Repositories
             {
                 CreateItemNameMethod(book);
                 CreatePrintYearMethod(book);
+                author.AddAuthorToBookMethod(book);
+                genre.AddGenreToBookMethod(book);
+                book.InStock = 0;
             }
             catch (Exception ex)
             {
@@ -67,6 +72,36 @@ namespace ModuleEF.DAL.Repositories
                     }
                 };
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="count">
+        /// равно -1, т.к. предполагается выдача книги
+        /// </param>
+        public void ChangeBooksAmount(Book book, int count = -1)
+        {
+            using(db = new())
+            {
+                try
+                {
+                    if (count < 0 && Math.Abs(count) > book.InStock)
+                    {
+                        throw new Exception("exc");
+                    }
+                    else
+                    {
+                        book.InStock += count;
+                        db.Books.Update(book);
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            };
         }
 
         private void CreatePrintYearMethod(Book book)
