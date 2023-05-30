@@ -1,4 +1,6 @@
-﻿namespace ModuleEF
+﻿using ModuleEF.BLL.Models;
+
+namespace ModuleEF.DAL.Repositories
 {
     public sealed class BookRepository : BaseRepository
     {

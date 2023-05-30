@@ -1,4 +1,4 @@
-﻿namespace ModuleEF
+﻿namespace ModuleEF.DAL.Entities
 {
     public class DB_Entity
     {

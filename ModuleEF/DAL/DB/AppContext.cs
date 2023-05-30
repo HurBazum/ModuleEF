@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ModuleEF.BLL.Models;
 
-namespace ModuleEF
+namespace ModuleEF.DAL.DB
 {
     public class AppContext : DbContext
     {
@@ -8,6 +9,10 @@ namespace ModuleEF
         public DbSet<User> Users { get; set; }
         //объекты таблицы Books
         public DbSet<Book> Books { get; set; }
+
+        //public DbSet<Genre> Genres { get; set; }
+
+        //public DbSet<Author> Author { get; set; }
 
         public AppContext()
         {

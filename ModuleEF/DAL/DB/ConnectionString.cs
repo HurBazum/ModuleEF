@@ -1,4 +1,4 @@
-﻿namespace ModuleEF
+﻿namespace ModuleEF.DAL.DB
 {
     public static class ConnectionString
     {

@@ -1,4 +1,6 @@
-﻿namespace ModuleEF
+﻿using ModuleEF.BLL.Models;
+
+namespace ModuleEF.DAL.Repositories
 {
     enum RoleEnum
     {
@@ -79,16 +81,16 @@
         {
             var book = LookForElementById<Book>(true);
 
-            var hasBook = user.Books.Contains(book);
             using (db = new())
             {
                 try
                 {
-                    if (hasBook == true)
+                    if (!user.Books.Contains(book))
                     {
                         user.Books.Add(book);
                         db.Users.Update(user);
                         db.SaveChanges();
+                        Console.WriteLine($"Выдача книги {book.Name} пользователю {user.Name} выполнена успешно!");
                     }
                     else
                     {
@@ -96,9 +98,9 @@
                         db.Dispose();
                     }
                 }
-                catch (Exception ex) 
-                { 
-                    Console.WriteLine(ex.InnerException); 
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.InnerException);
                 }
             };
         }
@@ -106,9 +108,9 @@
         /// <summary>
         /// Методы для проверки ввода текстовых значений для св-в класса User
         /// </summary>
-        private void CreateUserEmailMethod(User user) 
+        private void CreateUserEmailMethod(User user)
         {
-            string hasEmail = (!string.IsNullOrEmpty(user.Email)) ? " новый ": " ";
+            string hasEmail = !string.IsNullOrEmpty(user.Email) ? " новый " : " ";
             Console.Write($"Введите{hasEmail}e-mail: ");
             string newEmail = Console.ReadLine();
             if (string.IsNullOrEmpty(newEmail))

@@ -1,11 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-namespace ModuleEF
+using ModuleEF.BLL.Models;
+using ModuleEF.DAL.DB;
+using ModuleEF.DAL.Entities;
+
+namespace ModuleEF.DAL.Repositories
 {
     public delegate T LookingDelegate<T>(bool result) where T : DB_Entity;
     public delegate T CreationDelegate<T>() where T : DB_Entity;
     public class BaseRepository
     {
-        protected AppContext? db;
+        protected DB.AppContext? db;
 
         protected LookingDelegate<DB_Entity> lookingDelegate;
         public CreationDelegate<DB_Entity> creationDelegate;
@@ -19,9 +23,9 @@ namespace ModuleEF
         // Общие методы для потомков
         public void ShowContent<T>() where T : DB_Entity
         {
-            using(db = new())
+            using (db = new())
             {
-                foreach(var item in db.Set<T>()) 
+                foreach (var item in db.Set<T>())
                 {
                     Console.WriteLine(item.ToString());
                 }
@@ -31,7 +35,7 @@ namespace ModuleEF
         public T LookForElementById<T>(bool show = false) where T : DB_Entity
         {
             T item = null;
-            string elementName = (item is User) ? "user" : "book";
+            string elementName = item is User ? "user" : "book";
 
             if (!show)
             {
@@ -73,7 +77,7 @@ namespace ModuleEF
         public void RemoveItemById<T>() where T : DB_Entity
         {
             T item = (T)lookingDelegate.Invoke(true);
-            string itemName = (item is User) ? "user" : "book";
+            string itemName = item is User ? "user" : "book";
             Console.WriteLine($"\t\tУдаление {itemName} по Id!");
 
             if (item != null)
@@ -91,7 +95,7 @@ namespace ModuleEF
         public void AddItemToDB<T>() where T : DB_Entity
         {
             T[] values = new T[0];
-            string itemName = (values is User[]) ? "user" : "book";
+            string itemName = values is User[] ? "user" : "book";
             Console.WriteLine($"Сколько {itemName}" + "s хотите добавить?");
             if (int.TryParse(Console.ReadLine(), out int count) && count > 0)
             {
@@ -126,7 +130,7 @@ namespace ModuleEF
         protected void CreateItemNameMethod<T>(T entity) where T : DB_Entity
         {
             var itemName = typeof(T).Name;
-            string noName = (!string.IsNullOrEmpty(entity.Name)) ? " новое " : " ";
+            string noName = !string.IsNullOrEmpty(entity.Name) ? " новое " : " ";
             Console.Write($"Введите{noName}имя {itemName}: ");
             string newName = Console.ReadLine();
             if (string.IsNullOrEmpty(newName))
