@@ -30,6 +30,11 @@ namespace ModuleEF.BLL.Servicies
             return book!;
         }
 
+        public void FindAll()
+        {
+            _bookRepository.ShowContent<Book>();
+        }
+
         // Выдача, поступление и т.д.
         public void ChangeBookStock()
         {
@@ -56,11 +61,7 @@ namespace ModuleEF.BLL.Servicies
         {
             var user = _userRepository.LookForElementById<User>(true);
 
-            var book = _bookRepository.LookForElementById<Book>(true);
-
             _userRepository.AddBookToUserBooks(user);
-
-            _bookRepository.ChangeBooksAmount(book);
         }
     }
 }

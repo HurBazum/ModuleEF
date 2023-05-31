@@ -10,6 +10,7 @@ namespace ModuleEF.DAL.Repositories
 
     public class UserRepository : BaseRepository
     {
+        private BookRepository bookRepository = new();
         public UserRepository() : base()
         {
             lookingDelegate = LookForElementById<User>;
@@ -88,6 +89,7 @@ namespace ModuleEF.DAL.Repositories
                     if (!user.Books.Contains(book))
                     {
                         user.Books.Add(book);
+                        bookRepository.AddUserToBook(user, book);
                         db.Users.Update(user);
                         db.SaveChanges();
                         Console.WriteLine($"Выдача книги {book.Name} пользователю {user.Name} выполнена успешно!");

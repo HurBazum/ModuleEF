@@ -104,6 +104,13 @@ namespace ModuleEF.DAL.Repositories
             };
         }
 
+        public void AddUserToBook(User user, Book book)
+        {
+            ChangeBooksAmount(book);
+            book.Users.Add(user);
+        }
+
+
         private void CreatePrintYearMethod(Book book)
         {
             string noYear = !(book.PrintYear == default) ? " новый " : " ";
