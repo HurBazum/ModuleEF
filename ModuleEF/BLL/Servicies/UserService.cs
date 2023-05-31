@@ -26,7 +26,7 @@ namespace ModuleEF.BLL.Servicies
 
         public User GetUserById()
         {
-            var user = _userRepository.LookForElementById<User>(true);
+            var user = _userRepository.LookForElementById<User>();
             return user;
         }
 

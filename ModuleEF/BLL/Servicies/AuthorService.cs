@@ -7,14 +7,29 @@ namespace ModuleEF.BLL.Servicies
     {
         private AuthorRepository _authorRepository = new();
 
-        public void CreateSomeGenres()
+        public void AddAuthors()
         {
             _authorRepository.AddItemToDB<Author>();
         }
 
-        public void ShowAvailableGenres()
+        public void FindAll()
         {
             _authorRepository.ShowContent<Author>();
+        }
+
+        public void FindOne()
+        { 
+            _authorRepository.LookForElementById<Author>(default);
+        }
+
+        public void DeleteAuthor()
+        {
+            _authorRepository.RemoveItemById<Author>();
+        }
+
+        public void UpdateAuthor()
+        {
+            _authorRepository.UpdateItemById();
         }
     }
 }

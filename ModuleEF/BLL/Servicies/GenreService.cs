@@ -7,14 +7,24 @@ namespace ModuleEF.BLL.Servicies
     {
         private GenreRepository _genreRepository = new();
 
-        public void CreateSomeGenres()
+        public void AddGenres()
         {
             _genreRepository.AddItemToDB<Genre>();
         }
 
-        public void ShowAvailableGenres()
+        public void FindAll()
         {
             _genreRepository.ShowContent<Genre>();
+        }
+
+        public void DeleteGenres()
+        {
+            _genreRepository.RemoveItemById<Genre>();
+        }
+
+        public void UpdateGenre()
+        {
+            _genreRepository.UpdateItemById();
         }
     }
 }

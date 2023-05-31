@@ -27,6 +27,27 @@ namespace ModuleEF.DAL.Repositories
             return item!;
         }
 
+        public override void UpdateItemById()
+        {
+            var genre = (Genre)lookingDelegate.Invoke(default);
+            if (genre != null)
+            {
+                using(db = new())
+                {
+                    try
+                    {
+                        CreateItemNameMethod(genre);
+                        db.Genres.Update(genre);
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+        }
+
         public void AddGenreToBookMethod(Book book)
         {
             Console.WriteLine("Введите Id жанра:");

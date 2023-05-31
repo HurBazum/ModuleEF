@@ -13,7 +13,7 @@ namespace ModuleEF.PLL.Queries
             {
                 try
                 {
-                    Console.WriteLine("Введите фамилию автора:");
+                    Console.WriteLine("Введите фамилию автора(часть фамилии):");
                     string lastName = Console.ReadLine();
                     if (lastName.IsNullOrEmpty())
                     {

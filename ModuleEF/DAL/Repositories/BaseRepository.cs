@@ -49,7 +49,7 @@ namespace ModuleEF.DAL.Repositories
             {
                 try
                 {
-                    Console.WriteLine("Введите ID:");
+                    Console.WriteLine($"Введите ID {elementName}:");
                     bool result = int.TryParse(Console.ReadLine(), out int id);
                     if (!result)
                     {
@@ -80,7 +80,7 @@ namespace ModuleEF.DAL.Repositories
         public void RemoveItemById<T>() where T : DB_Entity
         {
             T item = (T)lookingDelegate.Invoke(true);
-            string itemName = item is User ? "user" : "book";
+            string itemName = item.GetType().Name;
             Console.WriteLine($"\t\tУдаление {itemName} по Id!");
 
             if (item != null)

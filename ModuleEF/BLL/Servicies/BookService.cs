@@ -24,7 +24,7 @@ namespace ModuleEF.BLL.Servicies
             _bookRepository.RemoveItemById<Book>();
         }
 
-        public Book GetBookById(int id)
+        public Book FindOne()
         {
             var book = _bookRepository.LookForElementById<Book>();
             return book!;
