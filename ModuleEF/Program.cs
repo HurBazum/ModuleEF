@@ -14,28 +14,17 @@ class Program
     static GenrePrintQuery gpQuery = new();
     static GetAuthorBookQuery gabQuery = new();
     static UserBookQuery ubQuery = new();
-    static UserRepository userRepository = new();
     static void Main(string[] strings)
     {
         bookService.FindAll();
         Console.WriteLine();
 
-        //gpQuery.QueryBook();
-        //gabQuery.QueryBook();
+        gpQuery.QueryBook();
+        gabQuery.QueryBook();
 
         userService.FindAll();
         Console.WriteLine();
         ubQuery.BookQuery();
-
-
-        var user = userRepository.LookForElementById<User>();
-
-
-        using (app = new())
-        {
-            Console.WriteLine(user.Name);
-            Console.WriteLine(user.Books.Count());
-        }
 
         Console.ReadLine();
     }
