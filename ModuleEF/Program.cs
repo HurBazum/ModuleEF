@@ -14,6 +14,7 @@ class Program
     static GenrePrintQuery gpQuery = new();
     static GetAuthorBookQuery gabQuery = new();
     static UserBookQuery ubQuery = new();
+    static UserRepository userRepository = new();
     static void Main(string[] strings)
     {
         bookService.FindAll();
@@ -27,7 +28,8 @@ class Program
         ubQuery.BookQuery();
 
 
-        var user = userService.GetUserById();
+        var user = userRepository.LookForElementById<User>();
+
 
         using (app = new())
         {

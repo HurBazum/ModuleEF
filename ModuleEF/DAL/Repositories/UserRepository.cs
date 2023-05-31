@@ -78,6 +78,10 @@ namespace ModuleEF.DAL.Repositories
             }
         }
 
+        /// <summary>
+        /// возможно, неправильно работает . . .
+        /// </summary>
+        /// <param name="user"></param>
         public void AddBookToUserBooks(User user)
         {
             var book = LookForElementById<Book>(true);

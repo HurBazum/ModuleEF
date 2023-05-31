@@ -2,14 +2,16 @@
 using ModuleEF.BLL.Models;
 using ModuleEF.DAL.DB;
 using ModuleEF.DAL.Entities;
+using AppContext = ModuleEF.DAL.DB.AppContext;
 
 namespace ModuleEF.DAL.Repositories
 {
+    // возможно, лишнее
     public delegate T LookingDelegate<T>(bool result) where T : DB_Entity;
     public delegate T CreationDelegate<T>() where T : DB_Entity;
     public class BaseRepository
     {
-        protected DB.AppContext? db;
+        protected AppContext? db;
 
         protected LookingDelegate<DB_Entity> lookingDelegate;
         public CreationDelegate<DB_Entity> creationDelegate;
@@ -34,8 +36,9 @@ namespace ModuleEF.DAL.Repositories
 
         public T LookForElementById<T>(bool show = false) where T : DB_Entity
         {
-            T item = null;
-            string elementName = item is User ? "user" : "book";
+            T item = (T)Activator.CreateInstance(typeof(T))!;
+            // fix
+            string elementName = item.GetType().Name;
 
             if (!show)
             {
@@ -142,26 +145,6 @@ namespace ModuleEF.DAL.Repositories
                 entity.Name = newName;
             }
         }
-
-        /*public void ShowItemsOfItemList<T, U>() where T : DB_Entity where U : DB_Entity
-        {
-            using (db = new())
-            {
-                List<T> items = db.Set<T>().Include(u => u.values).ToList();
-
-                foreach (var item in items)
-                {
-                    if (item.values.Any())
-                    {
-                        Console.WriteLine($"Книги {item.Name}:");
-                        foreach (var value in item.values)
-                        {
-                            Console.WriteLine("\t\t" + value.Name);
-                        }
-                    }
-                }
-            }
-        }*/
 
         // Виртуальные
         protected virtual DB_Entity CreateItem()

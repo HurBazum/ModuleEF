@@ -86,9 +86,9 @@ namespace ModuleEF.DAL.Repositories
             {
                 try
                 {
-                    if (count < 0 && Math.Abs(count) > book.InStock)
+                    if (count <= 0 && Math.Abs(count) > book.InStock)
                     {
-                        throw new Exception("exc");
+                        throw new Exception($"В библиотеке недостаточно книг!\nВсего можно выдать {book.InStock}!");
                     }
                     else
                     {
@@ -100,6 +100,7 @@ namespace ModuleEF.DAL.Repositories
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    db.Dispose();
                 }
             };
         }
