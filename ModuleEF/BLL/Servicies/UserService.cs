@@ -24,10 +24,10 @@ namespace ModuleEF.BLL.Servicies
             _userRepository.RemoveItemById<User>();
         }
 
-        public User GetUserById(int id)
+        public User GetUserById()
         {
-            var user = _userRepository.LookForElementById<User>();
-            return user!;
+            var user = _userRepository.LookForElementById<User>(true);
+            return user;
         }
 
         public void FindAll()

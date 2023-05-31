@@ -13,13 +13,27 @@ class Program
     static UserService userService = new();
     static GenrePrintQuery gpQuery = new();
     static GetAuthorBookQuery gabQuery = new();
+    static UserBookQuery ubQuery = new();
     static void Main(string[] strings)
     {
         bookService.FindAll();
         Console.WriteLine();
 
         //gpQuery.QueryBook();
-        gabQuery.QueryBook();
+        //gabQuery.QueryBook();
+
+        userService.FindAll();
+        Console.WriteLine();
+        ubQuery.BookQuery();
+
+
+        var user = userService.GetUserById();
+
+        using (app = new())
+        {
+            Console.WriteLine(user.Name);
+            Console.WriteLine(user.Books.Count());
+        }
 
         Console.ReadLine();
     }

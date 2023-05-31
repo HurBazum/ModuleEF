@@ -1,34 +1,40 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using ModuleEF.DAL.DB;
+using AppContext = ModuleEF.DAL.DB.AppContext;
 
 namespace ModuleEF.PLL.Queries
 {
     public class GenrePrintQuery
     {
-        DAL.DB.AppContext app;
-        public void QueryBook()
+        AppContext app;
+        public void QueryBook(bool betweenYears = false)
         {
             using (app = new())
             {
                 try
                 {
+                    ushort minYear = ushort.MinValue;
+                    ushort maxYear = ushort.MaxValue;
+
                     Console.WriteLine("Введите название жанра:");
                     string gen = Console.ReadLine();
                     if(gen.IsNullOrEmpty())
                     {
                         throw new Exception("Введена пустая строка!");
                     }
-
-                    Console.WriteLine("Введите минимальное значение года издания:");
-                    if(!int.TryParse(Console.ReadLine(), out int minYear))
+                    // если нужно найти книги по жанру, вышедшие в определённые годы
+                    if (betweenYears == true)
                     {
-                        throw new Exception("Неизвестное значение года!");
-                    }
+                        Console.WriteLine("Введите минимальное значение года издания:");
+                        if (!ushort.TryParse(Console.ReadLine(), out minYear))
+                        {
+                            throw new Exception("Неизвестное значение года!");
+                        }
 
-                    Console.WriteLine("Введите максимальное значение года издания:");
-                    if(!int.TryParse(Console.ReadLine(), out int maxYear))
-                    {
-                        throw new Exception("Неизвестное значение года!");
+                        Console.WriteLine("Введите максимальное значение года издания:");
+                        if (!ushort.TryParse(Console.ReadLine(), out maxYear))
+                        {
+                            throw new Exception("Неизвестное значение года!");
+                        }
                     }
 
                     var query = from book in app.Books
