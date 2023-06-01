@@ -1,7 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using AppContext = ModuleEF.DAL.DB.AppContext;
 
-namespace ModuleEF.PLL.Queries
+namespace ModuleEF.BLL.Queries
 {
     public class GenrePrintQuery
     {
@@ -17,7 +17,7 @@ namespace ModuleEF.PLL.Queries
 
                     Console.WriteLine("Введите название жанра:");
                     string gen = Console.ReadLine();
-                    if(gen.IsNullOrEmpty())
+                    if (gen.IsNullOrEmpty())
                     {
                         throw new Exception("Введена пустая строка!");
                     }
@@ -44,7 +44,7 @@ namespace ModuleEF.PLL.Queries
                                 where book.PrintYear < maxYear
                                 select (new { name = book.Name, gen = g.Name, print = book.PrintYear });
 
-                    if(!query.Any())
+                    if (!query.Any())
                     {
                         throw new Exception("Подходящих данных не найдено!");
                     }

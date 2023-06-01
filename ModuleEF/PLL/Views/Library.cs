@@ -35,27 +35,40 @@ namespace ModuleEF.PLL.Views
 
         }
 
-        public void WorkMenu()
+        public void WorkMenu(ref bool quit)
         {
-            Console.WriteLine("1.Действия с пользователями;\n2.Действия с книгами;\n3.Действия с жанрами;\n4.Действия с авторами;\n5.Запросы;");
+            Console.WriteLine("1.Действия с пользователями;\n2.Действия с книгами;\n3.Действия с жанрами;\n4.Действия с авторами;\n5.Запросы;\n6.Выход.");
             var key = Console.ReadKey().Key;
             switch(key)
             {
                 case ConsoleKey.D1:
+                    Console.Clear();
                     workWithUsers.ShowUserOperations();
                     break; 
                 case ConsoleKey.D2:
+                    Console.Clear();
                     workWithBooks.ShowBooksOperations();
                     break; 
-                case ConsoleKey.D3: 
+                case ConsoleKey.D3:
+                    Console.Clear();
                     workWithGenres.ShowGenresOperations();
                     break; 
-                case ConsoleKey.D4: 
+                case ConsoleKey.D4:
+                    Console.Clear();
                     workWithAuthors.ShowAuthorOperations();
                     break; 
                 case ConsoleKey.D5:
                     Console.Clear();
                     workWithQ.ShowQ();
+                    break; 
+                case ConsoleKey.D6:
+                    Console.Clear();
+                    Console.WriteLine("Работа окончена!");
+                    quit = true;
+                    break;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Недоступная операция!");
                     break;
             }
         }

@@ -35,5 +35,6 @@ namespace ModuleEF.PLL.Views
                     Console.WriteLine("Нельзя выбрать такую операцию!");
                     break;
             }
+        }
     }
 }

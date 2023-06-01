@@ -34,10 +34,23 @@ namespace ModuleEF.DAL.Repositories
             };
         }
 
+        public List<T> GetContent<T>() where T : DB_Entity
+        {
+            List<T> content = new();
+            using(db = new())
+            {
+                foreach(var item in db.Set<T>())
+                {
+                    content.Add(item);
+                }
+            }
+            return content;
+        }
+
         public T LookForElementById<T>(bool show = false) where T : DB_Entity
         {
             T item = (T)Activator.CreateInstance(typeof(T))!;
-            // fix
+            
             string elementName = item.GetType().Name;
 
             if (!show)
@@ -98,7 +111,7 @@ namespace ModuleEF.DAL.Repositories
         public void AddItemToDB<T>() where T : DB_Entity
         {
             T[] values = new T[0];
-            string itemName = values is User[] ? "user" : "book";
+            string itemName = ((T)Activator.CreateInstance(typeof(T))!).GetType().Name;
             Console.WriteLine($"Сколько {itemName}" + "s хотите добавить?");
             if (int.TryParse(Console.ReadLine(), out int count) && count > 0)
             {

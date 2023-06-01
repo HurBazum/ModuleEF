@@ -5,8 +5,12 @@ class Program
     static Library library = new();
     static void Main(string[] strings)
     {
-        library.WorkMenu();
+        var quit = false;
+        while (quit == false)
+        {
+            library.WorkMenu(ref quit);
 
-        Console.ReadLine();
+            Console.ReadLine();
+        }
     }
 }

@@ -80,8 +80,9 @@ namespace ModuleEF.DAL.Repositories
         /// <param name="count">
         /// равно -1, т.к. предполагается выдача книги
         /// </param>
-        public void ChangeBooksAmount(Book book, int count = -1)
+        public bool ChangeBooksAmount(Book book, int count = -1)
         {
+            bool result = false;
             using(db = new())
             {
                 try
@@ -92,6 +93,7 @@ namespace ModuleEF.DAL.Repositories
                     }
                     else
                     {
+                        result = true;
                         book.InStock += count;
                         db.Books.Update(book);
                         db.SaveChanges();
@@ -103,12 +105,15 @@ namespace ModuleEF.DAL.Repositories
                     db.Dispose();
                 }
             };
+            return result;
         }
 
         public void AddUserToBook(User user, Book book)
         {
-            ChangeBooksAmount(book);
-            book.Users.Add(user);
+            if (ChangeBooksAmount(book))
+            {
+                book.Users.Add(user);
+            }
         }
 
 

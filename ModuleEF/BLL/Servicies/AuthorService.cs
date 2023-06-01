@@ -14,7 +14,7 @@ namespace ModuleEF.BLL.Servicies
 
         public void FindAll()
         {
-            _authorRepository.ShowContent<Author>();
+           _authorRepository.ShowContent<Author>();
         }
 
         public void FindOne()

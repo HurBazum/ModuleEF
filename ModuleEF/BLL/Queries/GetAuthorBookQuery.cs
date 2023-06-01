@@ -1,7 +1,7 @@
 ﻿using AppContext = ModuleEF.DAL.DB.AppContext;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ModuleEF.PLL.Queries
+namespace ModuleEF.BLL.Queries
 {
     public class GetAuthorBookQuery
     {
@@ -9,7 +9,7 @@ namespace ModuleEF.PLL.Queries
 
         public void QueryBook()
         {
-            using(app = new())
+            using (app = new())
             {
                 try
                 {
@@ -25,7 +25,7 @@ namespace ModuleEF.PLL.Queries
                                 where a.Name.Contains(lastName)
                                 select (new { bookName = b.Name, auth = a.Name });
 
-                    if(!query.Any()) 
+                    if (!query.Any())
                     {
                         throw new Exception("Подходящих данных не найдено!");
                     }

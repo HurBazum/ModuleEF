@@ -1,4 +1,6 @@
-﻿using ModuleEF.PLL.Queries;
+﻿using ModuleEF.BLL.Queries;
+using ModuleEF.PLL.Queries;
+
 namespace ModuleEF.PLL.Views
 {
     public class WorkWithQ
@@ -6,12 +8,14 @@ namespace ModuleEF.PLL.Views
         GenrePrintQuery gpQuery = new();
         GetAuthorBookQuery gabQuery = new();
         UserBookQuery ubQuery = new();
+        LastPrintedBookQuery lpbQuery = new();
         public void ShowQ()
         {
             Console.WriteLine("1.Выбрать книги по жанру и годам;\n" +
                 "2.Выбрать книги по жанру;\n" +
                 "3.Выбрать книги определённого автора;\n" +
-                "4.Показать книги определённого пользователя;");
+                "4.Показать книги определённого пользователя;\n" +
+                "5.Показать последние напечатанные книги;");
 
             var key = Console.ReadKey().Key;
 
@@ -32,6 +36,10 @@ namespace ModuleEF.PLL.Views
                 case ConsoleKey.D4:
                     Console.Clear();
                     ubQuery.BookQuery();
+                    break;
+                case ConsoleKey.D5:
+                    Console.Clear();
+                    lpbQuery.BookQuery();
                     break;
                 default:
                     Console.Clear();

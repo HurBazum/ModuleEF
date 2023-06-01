@@ -1,5 +1,6 @@
 ﻿using ModuleEF.BLL.Models;
 using ModuleEF.DAL.Repositories;
+using AppContext = ModuleEF.DAL.DB.AppContext;
 
 namespace ModuleEF.BLL.Servicies
 {
@@ -7,6 +8,7 @@ namespace ModuleEF.BLL.Servicies
     {
         private BookRepository _bookRepository = new();
         private UserRepository _userRepository = new();
+        private AppContext app;
 
         // CRUD
         public void AddBooks()
@@ -33,6 +35,47 @@ namespace ModuleEF.BLL.Servicies
         public void FindAll()
         {
             _bookRepository.ShowContent<Book>();
+        }
+
+        /// <summary>
+        /// сортировка контента
+        /// </summary>
+        /// <param name="order">
+        /// false - asc
+        /// true - desc
+        /// </param>
+        public void SortContentByName(bool order = false)
+        {
+            using (app = new())
+            {
+                var sorted = order 
+                    ? _bookRepository.GetContent<Book>().OrderBy(x => x.Name).ToList() 
+                    : _bookRepository.GetContent<Book>().OrderByDescending(x => x.Name).ToList();
+                
+                foreach (var book in sorted)
+                {
+                    Console.WriteLine(book);
+                }
+            }
+        }
+
+        /// <summary>
+        /// см. SortContentByName
+        /// </summary>
+        /// <param name="order"></param>
+        public void SortContentByPrintYear(bool order = false)
+        {
+            using (app = new())
+            {
+                var sorted = order
+                    ? _bookRepository.GetContent<Book>().OrderBy(x => x.PrintYear).ToList()
+                    : _bookRepository.GetContent<Book>().OrderByDescending(x => x.PrintYear).ToList();
+
+                foreach (var book in sorted)
+                {
+                    Console.WriteLine(book);
+                }
+            }
         }
 
         // Выдача, поступление и т.д.
