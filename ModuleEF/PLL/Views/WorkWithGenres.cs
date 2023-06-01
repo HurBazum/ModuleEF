@@ -8,8 +8,10 @@ namespace ModuleEF.PLL.Views
 
         public void ShowGenresOperations()
         {
-            Console.WriteLine("1.Добавить жанр;\n2.Посмотреть имеющиеся жанры;" +
-        "\n3.Изменить данные жанра;\n4.Удалить жанр;");
+            Console.WriteLine("1.Добавить жанр;\n" +
+                "2.Посмотреть имеющиеся жанры;\n" +
+                "3.Изменить данные жанра;\n" +
+                "4.Удалить жанр.");
 
             var key = Console.ReadKey().Key;
             switch (key)

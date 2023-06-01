@@ -1,4 +1,6 @@
-﻿using ModuleEF.BLL.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ModuleEF.BLL.Models;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ModuleEF.DAL.Repositories
 {
@@ -79,7 +81,7 @@ namespace ModuleEF.DAL.Repositories
         }
 
         /// <summary>
-        /// возможно, неправильно работает . . .
+        /// выдача книги
         /// </summary>
         /// <param name="user"></param>
         public void AddBookToUserBooks(User user)
@@ -88,9 +90,12 @@ namespace ModuleEF.DAL.Repositories
 
             using (db = new())
             {
+                var query = from u in db.Users.Include(u => u.Books)
+                            where u.Name == user.Name
+                            select u.Books;
                 try
                 {
-                    if (!user.Books.Contains(book))
+                    if (!query.Any(x => x.Contains(book)))
                     {
                         user.Books.Add(book);
                         bookRepository.AddUserToBook(user, book);
@@ -101,7 +106,6 @@ namespace ModuleEF.DAL.Repositories
                     else
                     {
                         Console.WriteLine($"Пользователь {user.Name} уже взял книгу {book?.Name}!");
-                        db.Dispose();
                     }
                 }
                 catch (Exception ex)
@@ -110,6 +114,48 @@ namespace ModuleEF.DAL.Repositories
                 }
             };
         }
+
+        /// <summary>
+        /// Не работает
+        /// </summary>
+        /// <param name="user"></param>
+        /// <exception cref="Exception"></exception>
+        /*public void ReturnBookToLibrary(User user)
+        {
+            using (db = new())
+            {
+                var query = from u in db.Users.Include(u => u.Books)
+                            where u.Name == user.Name
+                            select u.Books;
+
+                foreach (var books in query)
+                {
+                    foreach (var book in books)
+                    {
+                        Console.WriteLine(book);
+                    }
+                }
+
+                Console.WriteLine("Введите ID книги, кот. хотите вернуть:");
+                if(!int.TryParse(Console.ReadLine(), out int id))
+                {
+                    throw new Exception("Неправильный ввод!");
+                }
+
+                var b = query.First().Find(x => x.Id == id);
+                var indx = query.First().IndexOf(b);
+
+                if (b != null)
+                {
+                    var a = db.Users.Where(x => x.Name == user.Name).Include(x => x.Books.Where(x => x.Id == id).First());
+                    db.Remove(a);
+
+                    bookRepository.TakeUserBook(user, b);
+                    db.Users.Update(user);
+                    db.SaveChanges();
+                }
+            }
+        }*/
 
         /// <summary>
         /// Методы для проверки ввода текстовых значений для св-в класса User

@@ -39,5 +39,11 @@ namespace ModuleEF.BLL.Servicies
         {
             _bookService.GiveABookToUser();
         }
+
+        public void TakeBookFromUser()
+        {
+            var user = _userRepository.LookForElementById<User>(true);
+            _userRepository.ReturnBookToLibrary(user);
+        }
     }
 }

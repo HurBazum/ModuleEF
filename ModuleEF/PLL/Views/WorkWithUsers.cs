@@ -12,7 +12,8 @@ namespace ModuleEF.PLL.Views
                 "3.Показать всех пользователей;\n" +
                 "4.Показать конкретного пользователя;\n" +
                 "5.Изменить данные конкретного пользователя;\n" +
-                "6.Добавить книгу пользователю;");
+                "6.Добавить книгу пользователю;\n" +
+                "7.Забрать книгу у юзера.");
 
             var key = Console.ReadKey().Key;
             switch(key)
@@ -40,6 +41,10 @@ namespace ModuleEF.PLL.Views
                 case ConsoleKey.D6:
                     Console.Clear();
                     userService.GiveBookToUser();
+                    break;
+                case ConsoleKey.D7:
+                    Console.Clear();
+                    userService.TakeBookFromUser();
                     break;
                 default:
                     Console.Clear();

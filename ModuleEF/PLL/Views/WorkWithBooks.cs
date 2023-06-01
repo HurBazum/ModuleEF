@@ -7,15 +7,15 @@ namespace ModuleEF.PLL.Views
         BookService bookService = new();
         public void ShowBooksOperations()
         {
+            
             Console.WriteLine("1.Добавить книгу(несколько);\n" +
                 "2.Удалить книгу;\n" +
                 "3.Показать все книги;\n" +
                 "4.Показать конкретную книгу;\n" +
                 "5.Изменить данные конкретной книги;\n" +
-                "6.Добавить книгу пользователю;\n" +
+                "6.Добавить кол-во книги.\n" +
                 "7.Показать все книги(а-я||я-а)\n" +
-                "8.Показать все книги(сортировка по году издания);\n" +
-                "9.Добавить кол-во книги.");
+                "8.Показать все книги(сортировка по году издания);");
 
             var key = Console.ReadKey().Key;
             switch (key)
@@ -85,10 +85,6 @@ namespace ModuleEF.PLL.Views
                             Console.WriteLine("Нельзя выбрать такую операцию!");
                             break;
                     }
-                    break;
-                case ConsoleKey.D9:
-                    Console.Clear();
-                    bookService.ChangeBookStock();
                     break;
                 default:
                     Console.Clear();

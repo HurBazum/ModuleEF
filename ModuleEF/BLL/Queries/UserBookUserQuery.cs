@@ -6,7 +6,7 @@ using ModuleEF.BLL.Models;
 
 namespace ModuleEF.PLL.Queries
 {
-    public class UserBookQuery
+    public class UserBookUserQuery
     {
         AppContext app;
         UserRepository userRepository = new();

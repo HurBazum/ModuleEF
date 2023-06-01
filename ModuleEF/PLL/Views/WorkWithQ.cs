@@ -1,5 +1,6 @@
 ﻿using ModuleEF.BLL.Queries;
 using ModuleEF.PLL.Queries;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModuleEF.PLL.Views
 {
@@ -7,15 +8,17 @@ namespace ModuleEF.PLL.Views
     {
         GenrePrintQuery gpQuery = new();
         GetAuthorBookQuery gabQuery = new();
-        UserBookQuery ubQuery = new();
+        UserBookUserQuery ubuQuery = new();
         LastPrintedBookQuery lpbQuery = new();
+        NameAndAuthorBookQuery naabQuery = new();
         public void ShowQ()
         {
             Console.WriteLine("1.Выбрать книги по жанру и годам;\n" +
                 "2.Выбрать книги по жанру;\n" +
                 "3.Выбрать книги определённого автора;\n" +
                 "4.Показать книги определённого пользователя;\n" +
-                "5.Показать последние напечатанные книги;");
+                "5.Показать последние напечатанные книги;\n" +
+                "6.Узнать есть ли опр. книга опр. автора в библиотеке.");
 
             var key = Console.ReadKey().Key;
 
@@ -23,7 +26,23 @@ namespace ModuleEF.PLL.Views
             {
                 case ConsoleKey.D1:
                     Console.Clear();
-                    gpQuery.QueryBook(true);
+                    Console.WriteLine($"1.Указать годы;\n2.Годы изданий не важны;");
+                    var yearKey = Console.ReadKey().Key;
+                    switch (yearKey)
+                    {
+                        case ConsoleKey.D1:
+                            Console.Clear();
+                            gpQuery.QueryBook(true);
+                            break;
+                        case ConsoleKey.D2:
+                            Console.Clear();
+                            gpQuery.QueryBook();
+                            break;
+                        default:
+                            Console.Clear();
+                            Console.WriteLine("Неизвестная операция!");
+                            break;
+                    }
                     break;
                 case ConsoleKey.D2:
                     Console.Clear();
@@ -35,11 +54,15 @@ namespace ModuleEF.PLL.Views
                     break;
                 case ConsoleKey.D4:
                     Console.Clear();
-                    ubQuery.BookQuery();
+                    ubuQuery.BookQuery();
                     break;
                 case ConsoleKey.D5:
                     Console.Clear();
                     lpbQuery.BookQuery();
+                    break;
+                case ConsoleKey.D6:
+                    Console.Clear();
+                    Console.WriteLine(naabQuery.BookQuery());
                     break;
                 default:
                     Console.Clear();

@@ -116,6 +116,10 @@ namespace ModuleEF.DAL.Repositories
             }
         }
 
+        public void TakeUserBook(User user, Book book)
+        {
+            ChangeBooksAmount(book, 1);
+        }
 
         private void CreatePrintYearMethod(Book book)
         {

@@ -7,8 +7,11 @@ namespace ModuleEF.PLL.Views
         AuthorService authorService = new();
         public void ShowAuthorOperations()
         {
-            Console.WriteLine("1.Добавить автора;\n2.Посмотреть имеющихся авторов;" +
-                "\n3.Посмотреть конкретного автора;\n4.Изменить данные автора;\n5.Удалить автора;");
+            Console.WriteLine("1.Добавить автора;\n" +
+                "2.Посмотреть имеющихся авторов;\n" +
+                "3.Посмотреть конкретного автора;\n" +
+                "4.Изменить данные автора;\n" +
+                "5.Удалить автора.");
 
             var key = Console.ReadKey().Key;
             switch (key)
