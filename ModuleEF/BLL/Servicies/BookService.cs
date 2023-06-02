@@ -1,5 +1,6 @@
 ﻿using ModuleEF.BLL.Models;
 using ModuleEF.DAL.Repositories;
+using ModuleEF.PLL.Helpers;
 using AppContext = ModuleEF.DAL.DB.AppContext;
 
 namespace ModuleEF.BLL.Servicies
@@ -96,7 +97,7 @@ namespace ModuleEF.BLL.Servicies
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ErrorMessage.Print(ex.Message);
             }
         }
 

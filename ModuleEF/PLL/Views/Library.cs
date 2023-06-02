@@ -37,7 +37,12 @@ namespace ModuleEF.PLL.Views
 
         public void WorkMenu(ref bool quit)
         {
-            Console.WriteLine("1.Действия с пользователями;\n2.Действия с книгами;\n3.Действия с жанрами;\n4.Действия с авторами;\n5.Запросы;\n6.Выход.");
+            Console.WriteLine("1.Действия с пользователями;" +
+                "\n2.Действия с книгами;" +
+                "\n3.Действия с жанрами;" +
+                "\n4.Действия с авторами;" +
+                "\n5.Запросы;" +
+                "\n6.Выход.");
             var key = Console.ReadKey().Key;
             switch(key)
             {

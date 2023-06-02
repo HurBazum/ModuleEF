@@ -1,4 +1,5 @@
 ﻿using ModuleEF.BLL.Models;
+using ModuleEF.PLL.Helpers;
 
 namespace ModuleEF.DAL.Repositories
 {
@@ -68,7 +69,7 @@ namespace ModuleEF.DAL.Repositories
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        ErrorMessage.Print(ex.Message);
                     }
                 };
             }
@@ -101,8 +102,7 @@ namespace ModuleEF.DAL.Repositories
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
-                    db.Dispose();
+                    ErrorMessage.Print(e.Message);
                 }
             };
             return result;

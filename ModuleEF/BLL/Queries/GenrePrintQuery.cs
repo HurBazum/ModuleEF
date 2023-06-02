@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using ModuleEF.PLL.Helpers;
 using AppContext = ModuleEF.DAL.DB.AppContext;
 
 namespace ModuleEF.BLL.Queries
@@ -59,7 +60,7 @@ namespace ModuleEF.BLL.Queries
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    ErrorMessage.Print(ex.Message);
                 }
             }
         }

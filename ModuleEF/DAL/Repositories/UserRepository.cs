@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModuleEF.BLL.Models;
+using ModuleEF.PLL.Helpers;
 using System.Security.Cryptography.X509Certificates;
 
 namespace ModuleEF.DAL.Repositories
@@ -30,7 +31,7 @@ namespace ModuleEF.DAL.Repositories
             catch (Exception ex)
             {
                 user = null;
-                Console.WriteLine(ex.Message);
+                ErrorMessage.Print(ex.Message);
             }
 
             return user!;
@@ -113,7 +114,7 @@ namespace ModuleEF.DAL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    ErrorMessage.Print(ex.Message);
                 }
             };
         }
@@ -157,7 +158,7 @@ namespace ModuleEF.DAL.Repositories
                         throw new Exception("У данного пользователя не взято ни одной книги!");
                     }
 
-                    Console.WriteLine("Введите ID книги, кот. хотите вернуть:");
+                    Console.Write("Введите ID книги, кот. хотите вернуть: ");
                     if (!int.TryParse(Console.ReadLine(), out int id))
                     {
                         throw new Exception("Неправильный ввод!");
@@ -174,7 +175,7 @@ namespace ModuleEF.DAL.Repositories
                 }
                 catch (Exception ex)
                 { 
-                    Console.WriteLine(ex.Message);
+                    ErrorMessage.Print(ex.Message);
                 }
             }
         }

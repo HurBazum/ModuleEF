@@ -2,6 +2,7 @@
 using ModuleEF.BLL.Models;
 using ModuleEF.DAL.DB;
 using ModuleEF.DAL.Entities;
+using ModuleEF.PLL.Helpers;
 using AppContext = ModuleEF.DAL.DB.AppContext;
 
 namespace ModuleEF.DAL.Repositories
@@ -77,13 +78,13 @@ namespace ModuleEF.DAL.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    ErrorMessage.Print(ex.Message);
                 }
             };
 
-            if (item != null && !show)
+            if (item != null && show == false)
             {
-                Console.WriteLine($"Найден {elementName}:");
+                Console.Write($"Найден {elementName}: ");
                 Console.WriteLine(item.ToString());
             }
 
@@ -139,7 +140,7 @@ namespace ModuleEF.DAL.Repositories
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        ErrorMessage.Print(ex.Message);
                     }
                 };
             }
