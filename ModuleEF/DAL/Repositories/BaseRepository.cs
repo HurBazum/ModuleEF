@@ -62,7 +62,7 @@ namespace ModuleEF.DAL.Repositories
             {
                 try
                 {
-                    Console.WriteLine($"Введите ID {elementName}:");
+                    Console.Write($"Введите ID {elementName}: ");
                     bool result = int.TryParse(Console.ReadLine(), out int id);
                     if (!result)
                     {
@@ -128,10 +128,12 @@ namespace ModuleEF.DAL.Repositories
                         if (count == 1)
                         {
                             db.Set<T>().Add(values[0]);
+                            Console.WriteLine($"{itemName} {values[0].Name} успешно добавлен в БД!");
                         }
                         else
                         {
                             db.Set<T>().AddRange(values);
+                            Console.WriteLine($"Все {itemName}s успешно добавлены в БД!");
                         }
                         db.SaveChanges();
                     }

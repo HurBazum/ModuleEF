@@ -12,7 +12,7 @@ namespace ModuleEF.DAL.Repositories
 
         protected override Genre CreateItem()
         {
-            Console.WriteLine("Добавление жанра:");
+            Console.WriteLine("\t\tДобавление жанра");
             var item = new Genre();
             try
             {
@@ -50,7 +50,6 @@ namespace ModuleEF.DAL.Repositories
 
         public void AddGenreToBookMethod(Book book)
         {
-            Console.WriteLine("Введите Id жанра:");
             using (db = new())
             {
                 try

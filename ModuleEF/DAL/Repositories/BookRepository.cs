@@ -14,7 +14,7 @@ namespace ModuleEF.DAL.Repositories
 
         protected override Book CreateItem()
         {
-            Console.WriteLine("Добавление книги:");
+            Console.WriteLine("\t\tДобавление книги");
             Book book = new();
             try
             {
@@ -108,15 +108,28 @@ namespace ModuleEF.DAL.Repositories
             return result;
         }
 
-        public void AddUserToBook(User user, Book book)
+        /// <summary>
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="book"></param>
+        /// <returns>
+        /// если метод возвращает void - может происходить добавление книги,
+        /// однако ChangeBooksAmount будет выбрасывать ошибку
+        /// </returns>
+        public bool AddUserToBook(User user, Book book)
         {
             if (ChangeBooksAmount(book))
             {
                 book.Users.Add(user);
+                return true;
+            }
+            else 
+            { 
+                return false;
             }
         }
 
-        public void TakeUserBook(User user, Book book)
+        public void TakeUserBook(Book book)
         {
             ChangeBooksAmount(book, 1);
         }

@@ -13,7 +13,7 @@ namespace ModuleEF.DAL.Repositories
 
         protected override Author CreateItem()
         {
-            Console.WriteLine("Добавление автора:");
+            Console.WriteLine("\t\tДобавление автора");
             var author = new Author();
             try
             {
@@ -52,7 +52,6 @@ namespace ModuleEF.DAL.Repositories
 
         public void AddAuthorToBookMethod(Book book)
         {
-            Console.WriteLine("Введите Id автора:");
             using (db = new())
             {
                 try

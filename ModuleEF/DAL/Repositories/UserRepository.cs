@@ -21,7 +21,7 @@ namespace ModuleEF.DAL.Repositories
         protected override User CreateItem()
         {
             User user = new();
-
+            Console.WriteLine("\t\tДобавление пользователя");
             try
             {
                 CreateItemNameMethod(user);
@@ -93,69 +93,91 @@ namespace ModuleEF.DAL.Repositories
                 var query = from u in db.Users.Include(u => u.Books)
                             where u.Name == user.Name
                             select u.Books;
+
                 try
                 {
-                    if (!query.Any(x => x.Contains(book)))
+                    if (query.Any(x => x.Contains(book)) == false)
                     {
-                        user.Books.Add(book);
-                        bookRepository.AddUserToBook(user, book);
-                        db.Users.Update(user);
-                        db.SaveChanges();
-                        Console.WriteLine($"Выдача книги {book.Name} пользователю {user.Name} выполнена успешно!");
+                        if (bookRepository.AddUserToBook(user, book))
+                        {
+                            user.Books.Add(book);
+                            db.Users.Update(user);
+                            db.SaveChanges();
+                            Console.WriteLine($"Выдача книги {book.Name} пользователю {user.Name} выполнена успешно!");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine($"Пользователь {user.Name} уже взял книгу {book?.Name}!");
+                        throw new Exception($"Пользователь {user.Name} уже взял книгу {book?.Name}!");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.InnerException);
+                    Console.WriteLine(ex.Message);
                 }
             };
         }
 
         /// <summary>
-        /// Не работает
+        /// удаление из связующей таблицы при помощи ExecuteSqlRaw,
+        /// т.к. она создана автоматически и в коде нет соответствующей
+        /// сущности!
         /// </summary>
         /// <param name="user"></param>
         /// <exception cref="Exception"></exception>
-        /*public void ReturnBookToLibrary(User user)
+        public void ReturnBookToLibrary(User user)
         {
             using (db = new())
             {
-                var query = from u in db.Users.Include(u => u.Books)
-                            where u.Name == user.Name
-                            select u.Books;
-
-                foreach (var books in query)
+                try
                 {
-                    foreach (var book in books)
+                    // получение списков книг, которые может вернуть пользователь
+                    var query = from u in db.Users.Include(u => u.Books)
+                                where u.Name == user.Name
+                                select u.Books;
+
+                    //проверка query на пустоту
+                    var isEmpty = false;
+
+                    foreach (var books in query)
                     {
-                        Console.WriteLine(book);
+                        if(books.Count() != 0)
+                        {
+                            isEmpty = true;
+                        }
+                        foreach (var book in books)
+                        {
+                            Console.WriteLine(book);
+                        }
                     }
-                }
+                    
+                    // если query пуст
+                    if( isEmpty  == false )
+                    {
+                        throw new Exception("У данного пользователя не взято ни одной книги!");
+                    }
 
-                Console.WriteLine("Введите ID книги, кот. хотите вернуть:");
-                if(!int.TryParse(Console.ReadLine(), out int id))
-                {
-                    throw new Exception("Неправильный ввод!");
-                }
+                    Console.WriteLine("Введите ID книги, кот. хотите вернуть:");
+                    if (!int.TryParse(Console.ReadLine(), out int id))
+                    {
+                        throw new Exception("Неправильный ввод!");
+                    }
+                    
+                    // получение книги из query по id
+                    var b = query.First().ToList().Find(x => x.Id == id);
 
-                var b = query.First().Find(x => x.Id == id);
-                var indx = query.First().IndexOf(b);
-
-                if (b != null)
-                {
-                    var a = db.Users.Where(x => x.Name == user.Name).Include(x => x.Books.Where(x => x.Id == id).First());
-                    db.Remove(a);
-
-                    bookRepository.TakeUserBook(user, b);
-                    db.Users.Update(user);
+                    string sq = $"DELETE FROM dbo.BookUser where BooksId = {b.Id} and UsersId = {user.Id}";
+                    var a = db.Database.ExecuteSqlRaw(sq);
+                    bookRepository.TakeUserBook(b);
                     db.SaveChanges();
+                    Console.WriteLine("Книга успешно отдана!");
+                }
+                catch (Exception ex)
+                { 
+                    Console.WriteLine(ex.Message);
                 }
             }
-        }*/
+        }
 
         /// <summary>
         /// Методы для проверки ввода текстовых значений для св-в класса User
