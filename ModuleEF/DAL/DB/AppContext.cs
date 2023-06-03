@@ -14,7 +14,7 @@ namespace ModuleEF.DAL.DB
 
         public DbSet<Author> Authors { get; set; }
 
-        public DbSet<BookUser> BookUsers { get; set; }
+        //public DbSet<BookUser> BookUsers { get; set; }
 
         public AppContext()
         {

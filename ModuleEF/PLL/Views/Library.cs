@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ModuleEF.BLL.Servicies;
+using ModuleEF.PLL.Helpers;
 
 namespace ModuleEF.PLL.Views
 {
@@ -73,7 +74,7 @@ namespace ModuleEF.PLL.Views
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("Недоступная операция!");
+                    ErrorMessage.Print("Недоступная операция!");
                     break;
             }
         }

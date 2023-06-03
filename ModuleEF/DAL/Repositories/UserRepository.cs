@@ -37,7 +37,7 @@ namespace ModuleEF.DAL.Repositories
             return user!;
         }
 
-        public void UpdateUsersById()
+        public override void UpdateItemById()
         {
             Console.WriteLine("\t\tИзненеие юзера по Id!");
             var user = (User)lookingDelegate.Invoke(true);
@@ -67,6 +67,7 @@ namespace ModuleEF.DAL.Repositories
 
                             db.Users.Update(user);
                             db.SaveChanges();
+                            SuccessMessage.Print($"Пользователь \'{user.Id}\' успешно изменён!");
                         }
                         else
                         {
@@ -75,7 +76,7 @@ namespace ModuleEF.DAL.Repositories
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        ErrorMessage.Print(ex.Message);
                     }
                 };
             }
@@ -104,7 +105,7 @@ namespace ModuleEF.DAL.Repositories
                             user.Books.Add(book);
                             db.Users.Update(user);
                             db.SaveChanges();
-                            Console.WriteLine($"Выдача книги {book.Name} пользователю {user.Name} выполнена успешно!");
+                            SuccessMessage.Print($"Выдача книги {book.Name} пользователю {user.Name} выполнена успешно!");
                         }
                     }
                     else
@@ -171,7 +172,7 @@ namespace ModuleEF.DAL.Repositories
                     var a = db.Database.ExecuteSqlRaw(sq);
                     bookRepository.TakeUserBook(b);
                     db.SaveChanges();
-                    Console.WriteLine("Книга успешно отдана!");
+                    SuccessMessage.Print("Книга успешно отдана!");
                 }
                 catch (Exception ex)
                 { 

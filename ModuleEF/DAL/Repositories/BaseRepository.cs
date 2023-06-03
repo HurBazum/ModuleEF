@@ -104,7 +104,7 @@ namespace ModuleEF.DAL.Repositories
                     var deletedItem = item;
                     db.Set<T>().Remove(item);
                     db.SaveChanges();
-                    Console.WriteLine($"{itemName} {deletedItem} был удалён!");
+                    SuccessMessage.Print($"{itemName} {deletedItem} был удалён!");
                 };
             }
         }
@@ -124,19 +124,15 @@ namespace ModuleEF.DAL.Repositories
                         for (int i = 0; i < count; i++)
                         {
                             values[i] = (T)creationDelegate.Invoke();
-                        }
+                            if (values[i] == null)
+                            {
+                                throw new ArgumentNullException();
+                            }
 
-                        if (count == 1)
-                        {
-                            db.Set<T>().Add(values[0]);
-                            Console.WriteLine($"{itemName} {values[0].Name} успешно добавлен в БД!");
+                            db.Set<T>().Add(values[i]);
+                            SuccessMessage.Print($"{itemName} {values[i].Name} успешно добавлен в БД!");
+                            db.SaveChanges();
                         }
-                        else
-                        {
-                            db.Set<T>().AddRange(values);
-                            Console.WriteLine($"Все {itemName}s успешно добавлены в БД!");
-                        }
-                        db.SaveChanges();
                     }
                     catch (Exception ex)
                     {

@@ -1,4 +1,5 @@
 ﻿using ModuleEF.BLL.Servicies;
+using ModuleEF.PLL.Helpers;
 
 namespace ModuleEF.PLL.Views
 {
@@ -48,7 +49,7 @@ namespace ModuleEF.PLL.Views
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("Нельзя выбрать такую операцию!");
+                    ErrorMessage.Print("Нельзя выбрать такую операцию!");
                     break;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using ModuleEF.BLL.Queries;
+using ModuleEF.PLL.Helpers;
 using ModuleEF.PLL.Queries;
 using System.ComponentModel.DataAnnotations;
 
@@ -40,7 +41,7 @@ namespace ModuleEF.PLL.Views
                             break;
                         default:
                             Console.Clear();
-                            Console.WriteLine("Неизвестная операция!");
+                            ErrorMessage.Print("Неизвестная операция!");
                             break;
                     }
                     break;
@@ -66,7 +67,7 @@ namespace ModuleEF.PLL.Views
                     break;
                 default:
                     Console.Clear();
-                    Console.WriteLine("Нельзя выбрать такую операцию!");
+                    ErrorMessage.Print("Нельзя выбрать такую операцию!");
                     break;
             }
 
